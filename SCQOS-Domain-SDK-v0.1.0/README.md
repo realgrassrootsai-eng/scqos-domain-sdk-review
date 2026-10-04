@@ -115,3 +115,7 @@ CLI failures, manifest integrity checks, kernel and authority contracts.
 The original SDK, both adapters, kernel and registry are byte-for-byte unchanged
 from reuse candidate `cf36261e477e126de9fa5fa12fe0b4c5cdb77a37`.
 This is scoped testing, not a whole-repository or independent review result.
+
+## Repository maintenance correction
+
+Bundled tests now reference the shipped examples and verifier locations. See the repository root README for isolated test setup and the scoped independent reproduction record. Runtime source and install artifacts remain unchanged. The unsigned manifest cannot authenticate artifacts if both files and manifest are replaced. No open-source license has been selected.

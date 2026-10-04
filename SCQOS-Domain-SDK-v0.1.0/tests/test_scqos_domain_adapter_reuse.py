@@ -195,7 +195,7 @@ def test_adapter_independent_import():
 
 def test_comparison_cli():
     root = Path(__file__).resolve().parents[1]
-    result = subprocess.run([sys.executable, str(root/"scripts/run_scqos_domain_reuse_demo.py")],
+    result = subprocess.run([sys.executable, str(root/"examples/run_scqos_domain_reuse_demo.py")],
                             capture_output=True, text=True, check=True)
     rows = [json.loads(line) for line in result.stdout.splitlines()]
     assert len(rows) == 8

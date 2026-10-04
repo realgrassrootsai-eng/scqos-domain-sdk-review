@@ -210,7 +210,7 @@ def test_naive_clock_fails_closed():
 
 def test_demo_cli():
     root = Path(__file__).resolve().parents[1]
-    result = subprocess.run([sys.executable, str(root/"scripts/run_scqos_synthetic_payment_demo.py")],
+    result = subprocess.run([sys.executable, str(root/"examples/run_scqos_synthetic_payment_demo.py")],
                             capture_output=True, text=True, check=True)
     rows = [json.loads(line) for line in result.stdout.splitlines()]
     assert [r["scenario"] for r in rows] == ["valid", "unapproved", "expired", "stale_state"]

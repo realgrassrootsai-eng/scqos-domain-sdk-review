@@ -84,13 +84,13 @@ def test_cli_behavior_failure(tmp_path):
 def test_install_verifier_rejects_manifest_path_escape(tmp_path, bad_path):
     manifest = dict(artifact_sha256={bad_path:"0"*64})
     (tmp_path/"MANIFEST.json").write_text(json.dumps(manifest))
-    verifier = Path(__file__).resolve().parents[1]/"packages/scqos-domain-sdk/verify_installation.py"
+    verifier = Path(__file__).resolve().parents[1]/"verify_installation.py"
     result = subprocess.run([sys.executable,str(verifier),str(tmp_path)],capture_output=True,text=True)
     assert result.returncode == 1 and json.loads(result.stdout)["error"] == "ValueError"
 
 def test_install_verifier_rejects_modified_artifact(tmp_path):
     (tmp_path/"modified.whl").write_text("changed")
     (tmp_path/"MANIFEST.json").write_text(json.dumps(dict(artifact_sha256={"modified.whl":"0"*64})))
-    verifier = Path(__file__).resolve().parents[1]/"packages/scqos-domain-sdk/verify_installation.py"
+    verifier = Path(__file__).resolve().parents[1]/"verify_installation.py"
     result = subprocess.run([sys.executable,str(verifier),str(tmp_path)],capture_output=True,text=True)
     assert result.returncode == 1 and json.loads(result.stdout)["error"] == "ValueError"
