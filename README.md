@@ -54,3 +54,7 @@ The manifest is unsigned. It detects changed bytes relative to its recorded hash
 ## Licensing
 
 No open-source license has been selected. Public inspection is the purpose of this repository; publication does not grant redistribution or commercial-use rights. Licensing remains a separate owner decision.
+
+## Mathematical transition example
+
+See [the exact-integer vector example](math-example/README.md) for an executable domain adapter, explicit algebraic predicates, nine receipts, and standard-library tests. This newer example is maintainer-tested and outside Nikolai's reproduced snapshot.
