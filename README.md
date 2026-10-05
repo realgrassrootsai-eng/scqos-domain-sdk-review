@@ -62,3 +62,7 @@ See [the exact-integer vector example](math-example/README.md) for an executable
 ## Build an adapter
 
 Use [the six-operation template](adapter_starter.py) and [implementation guide](docs/adapter_starter.md). The starter intentionally HOLDs until implemented. [Expanded validation](reproduction/domain-extensions-validation.md) covers 154 mathematical combinations plus authority and concurrency cases, with a recorded DeepSeek Workbench review.
+
+## Persistent SQLite example
+
+See [the persistent SQLite vector adapter](sqlite-example/sqlite_vector.py), [run guide](docs/sqlite-example.md), and [validation record](reproduction/domain-sqlite-validation.md). It demonstrates atomic authority consumption plus state mutation, replay persistence, process contention, and crash-boundary recovery under local SQLite assumptions.

@@ -1,0 +1,25 @@
+{
+  "authority": "NO_EXTERNAL_CONSEQUENCE",
+  "context_files": [
+    "sqlite-example/sqlite_vector.py",
+    "tests/test_sqlite_vector.py",
+    "docs/sqlite-example.md",
+    "math-example/vector_transition.py",
+    "SCQOS-Domain-SDK-v0.1.0/source/scqos_domain_sdk.py"
+  ],
+  "execution_evidence": false,
+  "external_actions": [],
+  "input_tokens": 11479,
+  "latency_ms": 10259,
+  "model_id": "deepseek.v3.2",
+  "output_tokens": 633,
+  "proposal": "**Findings**\n\nThe supplied files show a corrected persistent SQLite domain adapter (`sqlite_vector.py`) with comprehensive tests (`test_sqlite_vector.py`) and documentation (`sqlite-example.md`). All 16 mission tests pass. The adapter correctly implements the required protocol:\n\n1.  **Atomic Authority Consumption & State Write:** Uses `BEGIN IMMEDIATE` transactions; `execute_consequence` re-evaluates all guards (`evaluate_domain_predicates`) within the transaction before mutating `consumed_approvals`, `transition_ledger`, and `vector_state`. The commit is atomic.\n2.  **Replay Protection:** Checks `consumed_approvals` and `transition_ledger` tables for both approval ID and transition ID.\n3.  **Stale-State Protection:** Compares current state digest and value against the approval's `state_digest` and `prepared.before`.\n4.  **Exact Authority Binding:** Validates approval type, checks existence in `approvals` table with full field comparison, and verifies digests for request, state, and expected state.\n5.  **`writer_invoked` Timing:** `mark_invoked` is called inside `execute_consequence` after the re-evaluation guard passes but before the commit.\n6.  **Precommit Crash Rollback:** Test `test_crash_hook_before_commit` demonstrates a crash after SQL mutations but before COMMIT results in full rollback (no ledger entry, state unchanged).\n7.  **Postcommit Recovery:** Test `test_crash_hook_after_commit` shows a crash after COMMIT leaves the database in a committed state; `recovery_query` returns `COMMITTED`.\n8.  **Two-Process Races:** Tests `test_race_two_processes_same_approved_request` and `test_distinct_approvals_same_starting_state` use multiprocessing barriers to demonstrate that exactly one process commits when racing for the same approval or same starting state.\n9.  **SQLite Connection/Process Safety:** Adapter instances are process-local; tests spawn processes that open independent connections. SQLite's `BEGIN IMMEDIATE` provides serialization.\n10. **Documentation Claims:** The `sqlite-example.md` accurately describes the implementation, atomic protocol, crash recovery, multi-process considerations, and covered test scenarios.\n\nNo blocking issues are identified. The implementation satisfies all specified requirements.\n\n**Proposal**\n\nNo blocking issues. The adapter is ready for use.\n\n**Verification Plan**\n\n1.  Confirm all 16 tests in `test_sqlite_vector.py` pass in the local environment.\n2.  Review that the adapter's public method signatures match the `DomainAdapter` protocol.\n3.  Ensure the documentation example (`demo()` in `sqlite-example.md`) runs without error against the installed SDK wheel.\n4.  (Optional) For integration, verify the adapter's `kernel` property correctly references `SyntheticDeploymentAdapter.kernel` and that the SDK wheel is installed.",
+  "proposal_digest": "688efa76675abb712aac19fd16a2cf07d860ff3651a330037143a5d8108100eb",
+  "proposal_trust": "UNTRUSTED_GENERATED_TEXT",
+  "region": "us-east-1",
+  "schema_version": "scqos_workbench_model_proposal_receipt_v1",
+  "scope": "DeepSeek inspection of maintainer-corrected persistent SQLite adapter after executed local tests; model review is not execution evidence or independent certification.",
+  "source_receipt_sha256": "2bd7cb4ef3383fbfd502e306a698106d3b36e6121fcf549600ec866b1c0dea0d",
+  "stop_reason": "end_turn",
+  "total_tokens": 12112
+}
