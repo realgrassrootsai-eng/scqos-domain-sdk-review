@@ -1,0 +1,26 @@
+{
+  "authority": "NO_EXTERNAL_CONSEQUENCE",
+  "context_files": [
+    "adapter_starter.py",
+    "docs/adapter_starter.md",
+    "tests/test_domain_extensions.py",
+    "math-example/vector_transition.py",
+    "SCQOS-Domain-SDK-v0.1.0/source/scqos_domain_sdk.py",
+    "SCQOS-Domain-SDK-v0.1.0/source/governed_transition.py"
+  ],
+  "execution_evidence": false,
+  "external_actions": [],
+  "input_tokens": 10424,
+  "latency_ms": 19937,
+  "model_id": "deepseek.v3.2",
+  "output_tokens": 529,
+  "proposal": "**Findings**\n\nNo blocking correctness or safety issues were identified in the provided adapter starter, documentation, or test suite. The materials correctly implement a fail-closed unimplemented template and demonstrate a robust test suite for the mathematical example.\n\n**Proposal**\n\nNo changes are required. The starter correctly raises `NotImplementedError` for all six methods, ensuring any incomplete adapter will hold. The documentation accurately describes the required operations and the execution boundary. The 186-passing test suite comprehensively validates the mathematical example adapter against the 154 integer combinations and all specified failure modes (forged approval, replay, concurrency, kernel failures, etc.). The tests correctly use the installed SDK wheel and do not bypass the checks they claim to verify. The `VectorAdapter` correctly implements the `DomainAdapter` protocol, including atomic guard repetition in `execute_consequence`.\n\n**Verification Plan**\n\n1.  Confirm the `AdapterStarter` class in `adapter_starter.py` raises `NotImplementedError` for all six methods.\n2.  Confirm the test `test_unimplemented_starter_holds` verifies that `execute_governed_transition` returns a `HOLD` decision when using the starter.\n3.  Confirm the mathematical test suite (`test_all_integer_transitions` and related tests) validates all 154 combinations of `x` (0..10) and `k` (-1..12) against the independent arithmetic rule (`1 <= k <= 3 and k <= x`).\n4.  Confirm the test suite includes specific tests for authority validation (`test_forged_approval`, `test_missing_authority`, `test_authority_time_boundaries`), request integrity (`test_changed_request`), replay protection (`test_replay_preserves_first_effect`), state freshness (`test_same_values_new_revision_rejects_old_approval`), atomic guard repetition (`test_change_after_kernel_permit`), concurrency (`test_concurrent_duplicate_exactly_one_write`), and kernel failure handling (`test_kernel_failure_cannot_write`).\n5.  Confirm the `VectorAdapter.evaluate_domain_predicates` and `execute_consequence` methods correctly implement all specified checks (conservation, non-negativity, step bounds, authority validity, replay, actor scope, proposal integrity, state freshness).\n6.  Confirm the test fixtures (e.g., direct assignment to `store._state`) are used only for setup and are documented as such, not as a bypass of the writer boundary during the test execution phase.",
+  "proposal_digest": "c10e3cbe1ada48e3b6f5d05a606dd56b7989c51579972909a1371eaf113ad4cf",
+  "proposal_trust": "UNTRUSTED_GENERATED_TEXT",
+  "region": "us-east-1",
+  "schema_version": "scqos_workbench_model_proposal_receipt_v1",
+  "scope": "Model inspection of maintainer-corrected starter, docs and tests; not independent reproduction or executed tests.",
+  "source_receipt_sha256": "443eb625689c82dc12f30a710ebf8bafe6ef355265ff002102872f84efd6c45b",
+  "stop_reason": "end_turn",
+  "total_tokens": 10953
+}

@@ -58,3 +58,7 @@ No open-source license has been selected. Public inspection is the purpose of th
 ## Mathematical transition example
 
 See [the exact-integer vector example](math-example/README.md) for an executable domain adapter, explicit algebraic predicates, nine receipts, and standard-library tests. This newer example is maintainer-tested and outside Nikolai's reproduced snapshot.
+
+## Build an adapter
+
+Use [the six-operation template](adapter_starter.py) and [implementation guide](docs/adapter_starter.md). The starter intentionally HOLDs until implemented. [Expanded validation](reproduction/domain-extensions-validation.md) covers 154 mathematical combinations plus authority and concurrency cases, with a recorded DeepSeek Workbench review.
